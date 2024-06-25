@@ -12,6 +12,15 @@ void gotoxy(int x, int y) {
     // Set the console cursor position
     SetConsoleCursorPosition(hConsole, pos);
 }
+
+void ShowConsoleCursor(bool showFlag) {
+    HANDLE hConsole = GetStdHandle(STD_OUTPUT_HANDLE);
+    CONSOLE_CURSOR_INFO cursorInfo;
+
+    GetConsoleCursorInfo(hConsole, &cursorInfo);
+    cursorInfo.bVisible = showFlag; // set the cursor visibility
+    SetConsoleCursorInfo(hConsole, &cursorInfo);
+}
 struct segment {
     int x, y;
     int shape = 111;
@@ -48,31 +57,6 @@ public:
     void print() {
         gotoxy(s[0].x, s[0].y);
         cout << char(s[0].shape);
-        //if (facing == 0) {
-        //    for (int i = 0; i < length; i++) {
-        //        gotoxy(s[0].x, s[0].y);
-        //        //gotoxy(s[i].x, s[i].y);
-        //        //cout << char(s[i].shape);
-        //    }
-        //}
-        //else if (facing == 1) {
-        //    for (int i = 0; i < length; i++) {
-        //        gotoxy(s[i].x, s[i].y);
-        //        cout << char(s[i].shape);
-        //    }
-        //}
-        //else if (facing == 2) {
-        //    for (int i = 0; i < length; i++) {
-        //        gotoxy(s[i].x, s[i].y);
-        //        cout << char(s[i].shape);
-        //    }
-        //}
-        //else if (facing == 3) {
-        //    for (int i = 0; i < length; i++) {
-        //        gotoxy(s[i].x, s[i].y);
-        //        cout << char(s[i].shape);
-        //    }
-        //}
     }
     void updatePos() {
         gotoxy(s[length - 1].x, s[length - 1].y);
@@ -317,6 +301,7 @@ static BOOL SetConsoleSize(int cols, int rows) {
 }
 
 int main() {
+    ShowConsoleCursor(0);
 	SetConsoleSize(WIDTH, HEIGHT);
     main_game game;
     game.startGame();
